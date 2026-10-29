@@ -2,6 +2,7 @@ LittlerootTown_BrendansHouse_1F_MapScripts::
 	map_script MAP_SCRIPT_ON_LOAD, LittlerootTown_BrendansHouse_1F_OnLoad
 	map_script MAP_SCRIPT_ON_TRANSITION, LittlerootTown_BrendansHouse_1F_OnTransition
 	map_script MAP_SCRIPT_ON_FRAME_TABLE, LittlerootTown_BrendansHouse_1F_OnFrame
+    map_script_2 VAR_LITTLEROOT_INTRO_STATE, 0, LittlerootTown_BrendansHouse_1F_EventScript_Flashback
 	.byte 0
 
 LittlerootTown_BrendansHouse_1F_OnLoad:
@@ -434,3 +435,45 @@ PlayersHouse_1F_Text_WhatColorDidTheySay:
 PlayersHouse_1F_Text_StillUnknownPokemon:
 	.string "MOM: Well, isn't that something!\n"
 	.string "There are still unknown POKéMON.$"
+
+LittlerootTown_BrendansHouse_1F_EventScript_Flashback::
+	lockall
+	addobject LOCALID_PLAYERS_HOUSE_1F_DAD
+	delay 30
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
+	waitmovement 0
+	msgbox LittlerootTown_BrendansHouse_1F_Text_FlashbackDad1, MSGBOX_DEFAULT
+	playfanfare MUS_OBTAIN_ITEM
+	message LittlerootTown_BrendansHouse_1F_Text_FlashbackGotEgg
+	waitmessage
+	waitfanfare
+	msgbox LittlerootTown_BrendansHouse_1F_Text_FlashbackDad2, MSGBOX_DEFAULT
+	closemessage
+	fadescreen FADE_TO_BLACK
+	removeobject LOCALID_PLAYERS_HOUSE_1F_DAD
+	delay 60
+	msgbox LittlerootTown_BrendansHouse_1F_Text_OneYearLater, MSGBOX_DEFAULT
+	closemessage
+	setflag FLAG_SYS_POKEMON_GET
+	givemon SPECIES_RIOLU, 5
+	setvar VAR_LITTLEROOT_INTRO_STATE, 7
+	warp MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F, 7, 1
+	waitstate
+	releaseall
+	end
+
+LittlerootTown_BrendansHouse_1F_Text_FlashbackDad1:
+	.string "DAD: There you are, {PLAYER}.\p"
+	.string "Come here a moment.\n"
+	.string "I have something for you.$"
+
+LittlerootTown_BrendansHouse_1F_Text_FlashbackGotEgg:
+	.string "{PLAYER} received a POKéMON EGG!$"
+
+LittlerootTown_BrendansHouse_1F_Text_FlashbackDad2:
+	.string "DAD: I wanted you to have a partner\n"
+	.string "of your very own.\p"
+	.string "Take good care of it, okay?$"
+
+LittlerootTown_BrendansHouse_1F_Text_OneYearLater:
+	.string "One year later…$"
