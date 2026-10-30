@@ -40,6 +40,7 @@
 #include "title_screen.h"
 #include "window.h"
 #include "mystery_gift_menu.h"
+#include "character_select.h"
 
 /*
  * Main menu state machine
@@ -1513,13 +1514,24 @@ static void Task_NewGameBirchSpeech_WaitForPlayerFadeIn(u8 taskId)
     }
 }
 
+static void Task_NewGameBirchSpeech_StartCharacterSelect(u8 taskId)
+{
+    if (!gPaletteFade.active)
+    {
+        FreeAllWindowBuffers();
+        FreeAndDestroyMonPicSprite(gTasks[taskId].tLotadSpriteId);
+        DestroyTask(taskId);
+        SetMainCallback2(CB2_CharacterSelect);
+    }
+}
+
 static void Task_NewGameBirchSpeech_BoyOrGirl(u8 taskId)
 {
-    NewGameBirchSpeech_ClearWindow(0);
-    StringExpandPlaceholders(gStringVar4, gText_Birch_BoyOrGirl);
-    AddTextPrinterForMessage(TRUE);
-    gTasks[taskId].func = Task_NewGameBirchSpeech_WaitToShowGenderMenu;
+    (void)Task_NewGameBirchSpeech_WaitToShowGenderMenu; // stops an unused-function error
+    BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
+    gTasks[taskId].func = Task_NewGameBirchSpeech_StartCharacterSelect;
 }
+
 
 static void Task_NewGameBirchSpeech_WaitToShowGenderMenu(u8 taskId)
 {
@@ -1639,6 +1651,19 @@ static void Task_NewGameBirchSpeech_StartNamingScreen(u8 taskId)
         DoNamingScreen(NAMING_SCREEN_PLAYER, gSaveBlock2Ptr->playerName, gSaveBlock2Ptr->playerGender, 0, 0, CB2_NewGameBirchSpeech_ReturnFromNamingScreen);
     }
 }
+
+void MainMenu_StartNamingScreenAfterCharacterSelect(void)
+{
+    static const u8 sHeroName[] = _("Hero");
+    static const u8 sHinaName[] = _("Hina");
+
+    if (gSaveBlock2Ptr->playerGender == MALE)
+        StringCopy(gSaveBlock2Ptr->playerName, sHeroName);
+    else
+        StringCopy(gSaveBlock2Ptr->playerName, sHinaName);
+    DoNamingScreen(NAMING_SCREEN_PLAYER, gSaveBlock2Ptr->playerName, gSaveBlock2Ptr->playerGender, 0, 0, CB2_NewGameBirchSpeech_ReturnFromNamingScreen);
+}
+
 
 static void Task_NewGameBirchSpeech_SoItsPlayerName(u8 taskId)
 {
