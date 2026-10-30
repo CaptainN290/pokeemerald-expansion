@@ -52,10 +52,10 @@
 #define HINA_X_WHEN_UNSELECTED 188
 
 // Centre of each name (pixels) and the matching overline tiles.
-#define HERO_NAME_CENTER_X 64
-#define HINA_NAME_CENTER_X 184
-#define HERO_LINE_TILE_X   4
-#define HINA_LINE_TILE_X   19
+#define HERO_NAME_CENTER_X 80
+#define HINA_NAME_CENTER_X 160
+#define HERO_LINE_TILE_X   6
+#define HINA_LINE_TILE_X   16
 #define LINE_TILE_WIDTH    8
 #define LINE_TILE_Y        17
 
