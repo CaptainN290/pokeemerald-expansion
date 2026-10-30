@@ -3,6 +3,7 @@
 #include "decompress.h"
 #include "gpu_regs.h"
 #include "main.h"
+#include "menu.h"
 #include "palette.h"
 #include "scanline_effect.h"
 #include "sound.h"
