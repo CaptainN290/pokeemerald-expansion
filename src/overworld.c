@@ -1928,6 +1928,14 @@ static bool8 RunFieldCallback(void)
     return TRUE;
 }
 
+extern const u8 LittlerootTown_BrendansHouse_1F_EventScript_Flashback[];
+
+static void FieldCB_NewGameIntro(void)
+{
+    FieldCB_WarpExitFadeFromBlack();
+    ScriptContext_SetupScript(LittlerootTown_BrendansHouse_1F_EventScript_Flashback);
+}
+
 void CB2_NewGame(void)
 {
     FieldClearVBlankHBlankCallbacks();
@@ -1938,7 +1946,7 @@ void CB2_NewGame(void)
     PlayTimeCounter_Start();
     ScriptContext_Init();
     UnlockPlayerFieldControls();
-    gFieldCallback = FieldCB_WarpExitFadeFromBlack;
+    gFieldCallback = FieldCB_NewGameIntro;
     gFieldCallback2 = NULL;
     DoMapLoadLoop(&gMain.state);
     SetFieldVBlankCallback();
