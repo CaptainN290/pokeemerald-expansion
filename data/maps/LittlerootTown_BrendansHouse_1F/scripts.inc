@@ -438,10 +438,23 @@ PlayersHouse_1F_Text_StillUnknownPokemon:
 
 LittlerootTown_BrendansHouse_1F_EventScript_Flashback::
 	lockall
-	addobject LOCALID_PLAYERS_HOUSE_1F_DAD
-	delay 30
-	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterRight
+	setvar VAR_LITTLEROOT_INTRO_STATE, 7
+	setflag FLAG_HIDE_MAP_NAME_POPUP
+	setrespawn HEAL_LOCATION_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_MOM
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_MAYS_HOUSE_TRUCK
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_TRUCK
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_RIVAL_MOM
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_RIVAL_SIBLING
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F_POKE_BALL
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_1
+	setflag FLAG_HIDE_LITTLEROOT_TOWN_PLAYERS_HOUSE_VIGOROTH_2
+	setvar VAR_LITTLEROOT_HOUSES_STATE_BRENDAN, 1
+	setobjectxy LOCALID_PLAYERS_HOUSE_1F_DAD, 8, 5
+	turnobject LOCALID_PLAYERS_HOUSE_1F_DAD, DIR_SOUTH
+	applymovement LOCALID_PLAYER, Common_Movement_WalkInPlaceFasterUp
 	waitmovement 0
+	delay 30
 	msgbox LittlerootTown_BrendansHouse_1F_Text_FlashbackDad1, MSGBOX_DEFAULT
 	playfanfare MUS_OBTAIN_ITEM
 	message LittlerootTown_BrendansHouse_1F_Text_FlashbackGotEgg
@@ -450,13 +463,14 @@ LittlerootTown_BrendansHouse_1F_EventScript_Flashback::
 	msgbox LittlerootTown_BrendansHouse_1F_Text_FlashbackDad2, MSGBOX_DEFAULT
 	closemessage
 	fadescreen FADE_TO_BLACK
+	setflag FLAG_HIDE_PLAYERS_HOUSE_DAD
 	removeobject LOCALID_PLAYERS_HOUSE_1F_DAD
 	delay 60
 	msgbox LittlerootTown_BrendansHouse_1F_Text_OneYearLater, MSGBOX_DEFAULT
 	closemessage
+	clearflag FLAG_HIDE_MAP_NAME_POPUP
 	setflag FLAG_SYS_POKEMON_GET
 	givemon SPECIES_RIOLU, 5
-	setvar VAR_LITTLEROOT_INTRO_STATE, 7
 	warp MAP_LITTLEROOT_TOWN_BRENDANS_HOUSE_2F, 7, 1
 	waitstate
 	releaseall
